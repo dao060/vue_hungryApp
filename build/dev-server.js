@@ -46,12 +46,14 @@ apiRoutes.get('/goods', (res) => {
   });
 });
 
-aipRoutes.get('/ratings', (res) => {
+apiRoutes.get('/ratings', (res) => {
   res.json({
     errno: 0,
     data: ratings
   });
 });
+
+app.use('/api', apiRoutes);
 
 var compiler = webpack(webpackConfig)
 
