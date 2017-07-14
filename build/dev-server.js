@@ -28,25 +28,25 @@ var seller = appData.seller;
 var goods = appData.goods;
 var ratings = appData.ratings;
 
-var apiRoutes = express.Route();
+var apiRoutes = express.Router();
 
 // 配置服务器路由
 const ERR_OK = 0;
-apiRoutes.get('/seller', (res) => {
+apiRoutes.get('/seller', function (req, res) {
   res.json({
     errno: 0,
     data: seller
   });
 });
 
-apiRoutes.get('/goods', (res) => {
+apiRoutes.get('/goods', function (req, res) {
   res.json({
     errno: 0,
     data: goods
   });
 });
 
-apiRoutes.get('/ratings', (res) => {
+apiRoutes.get('/ratings', function (req, res) {
   res.json({
     errno: 0,
     data: ratings

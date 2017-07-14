@@ -1,6 +1,6 @@
 <template>
   <div class="goods">
-    
+    I am goods page
   </div>
 </template>
 

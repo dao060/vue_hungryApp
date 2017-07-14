@@ -1,6 +1,6 @@
 <template>
-  <div class="ratingsr">
-    
+  <div class="ratings">
+    I am ratings page
   </div>
 </template>
 

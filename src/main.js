@@ -8,4 +8,6 @@ import apiResource from 'vue-resource';
 // 配置阻止vue在启动时生成生产提示
 Vue.config.productionTip = false;
 
-let App = Vue.extent(App);
+Vue.use(apiResource);
+
+let app = Vue.extend(App);
