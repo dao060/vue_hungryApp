@@ -10,4 +10,9 @@ Vue.config.productionTip = false;
 
 Vue.use(apiResource);
 
-let app = Vue.extend(App);
+let app = new Vue({
+    el: '#app',
+    router,
+    template: '<App/>',
+    components: {App}
+});
