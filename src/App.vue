@@ -29,8 +29,10 @@ export default {
     this.$http.get('/api/seller').then((res) => {
       res = res.body;
       console.log(res);
-      this.seller = res.seller;
-    })
+      this.seller = res.data;
+    }, (res) => {
+      console.log(res);
+    });
   },
   components: {
     'v-header': header
@@ -40,13 +42,13 @@ export default {
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import './common/stylus/mixin.styl'
-@import './common/stylus/border-1px.styl'
+@import './common/stylus/base.styl'
 .tab
   display: flex
   width: 100%
   height: 40px
   line-height: 40px
-  border-1px(rgb(7, 17, 27, 0.1))
+  border-1px(rgba(7, 17, 27, 0.1))
   .tab-item
     flex: 1
     text-align: center 

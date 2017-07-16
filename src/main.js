@@ -5,6 +5,8 @@ import App from './App';
 import router from './router';
 import apiResource from 'vue-resource';
 
+import './common/stylus/index.styl'
+
 // 配置阻止vue在启动时生成生产提示
 Vue.config.productionTip = false;
 
