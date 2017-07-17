@@ -13,14 +13,14 @@
       <div class="supports">
         <span class="icon"></span><span v-if="seller.supports">{{ seller.supports[0].description }}</span>
       </div>
+      <div class="supports-count">
+        <span class="count" v-if="seller.supports">{{ seller.supports.length }}个</span>
+        <i class="icon-keyboard_arrow_right"></i>
+      </div>
     </div>
   </div>
   <div class="bulletin-wrapper">
     <span class="bulletin-icon"></span><span class="bulletin-content">{{ seller.bulletin }}</span>
-    <i class="icon-keyboard_arrow_right"></i>
-  </div>
-  <div class="supports-count">
-    <span class="count">{{ seller.supports.length }}个</span>
     <i class="icon-keyboard_arrow_right"></i>
   </div>
 </div>
@@ -88,15 +88,19 @@ export default {
           background-repeat: no-repeat
           vertical-align: top
           margin-right: 4px
-    .support-count
-      position: absolute
-      bottom: 
-      height: 24px
-      line-height: 24px
-      font-size: 10px
-      padding: 7px 8px 7px 8px
-      border-radius: 12px
-      -webkit-border-radius: 12px
+      .supports-count
+        position: absolute
+        right: 12px
+        bottom: 15px
+        height: 24px
+        line-heightL 12px
+        font-size: 10px
+        background: #4c5054
+        line-height: 24px
+        font-size: 10px
+        padding: 7px 8px 7px 8px
+        border-radius: 12px
+        -webkit-border-radius: 12px
 
   .bulletin-wrapper
     position: relative
