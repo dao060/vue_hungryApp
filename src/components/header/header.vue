@@ -12,7 +12,7 @@
       <div class="description">{{ seller.description }}/{{ seller.deliveryTime }}分钟到达</div>
       <div class="supports">
         <span class="icon"></span><span v-if="seller.supports">{{ seller.supports[0].description }}</span>
-        <div class="supports-count">
+        <div class="supports-count" @click="showDetail">
           <span class="count" v-if="seller.supports">{{ seller.supports.length }}个</span>
           <i class="icon-keyboard_arrow_right"></i>
         </div>
@@ -20,7 +20,7 @@
     </div>
   </div>
   <!-- 公告 -->
-  <div class="bulletin-wrapper">
+  <div class="bulletin-wrapper" @click="showDetail">
     <span class="bulletin-icon"></span><span class="bulletin-content">{{ seller.bulletin }}</span>
     <i class="icon-keyboard_arrow_right"></i>
   </div>
@@ -28,17 +28,37 @@
     <img :src="seller.avatar" width="100%" height="100%"/>
   </div>
   <!-- 商家详情弹页 -->
-  <div v-show="detailShow" class="detail">
+  <div class="detail" v-show="detailShow">
     <div class="detail-wrapper clearfix">
-      <div class="detail-main"></div>
+      <div class="detail-main">
+        <h1 class="name">{{ seller.name }}</h1>
+        <!-- star组件 -->
+        <div class="star-wrapper">
+          <star :score="seller.score" :size="48"></star>
+        </div>
+        <!-- 标题 -->
+        <div class="title">
+          <div class="line"></div>
+          <div class="text">优惠信息</div>
+          <div class="line"></div>
+        </div>
+        <!-- 列表 -->
+        <ul v-if="seller.supports" class="supports">
+          <li class="support-item" v-for="item in seller.supports">
+            <span class="icon" :class="classMap[seller.supports[$index].type]"></span>
+            <span class="text" :class="seller.supports[$index].description"></span>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="detai-close">
+    <div class="detail-close" @click="detailHide">
       <i class="icon-close"></i>
     </div>
   </div>   
 </div>
 </template>
 <script>
+import star from '../star/star.vue';
 export default {
   name: 'header',
   props: {
@@ -48,7 +68,18 @@ export default {
   },
   data() {
     return {
-      detailShow: true
+      detailShow: false
+    }
+  },
+  components: {
+    "star": star
+  },
+  methods: {
+    showDetail() {
+      this.detailShow = true;
+    },
+    detailHide() {
+      this.detailShow = false;
     }
   }
 }
@@ -168,7 +199,7 @@ export default {
     filter: blur(10px)
     -webkit-filter: blur(10px)
     overflow: hidden
-/* 弹出页样式 */
+/****************** 弹出页样式 **************************/
   .detail
     position: fixed
     top: 0
@@ -180,17 +211,45 @@ export default {
     background: rgba(7,17,27,0.8)
     filter: blur(10)
     -webkit-filter: blur(10)
+    box-sizing: border-box
+    -webkit-box-sizing: border-box
     .detail-wrapper
       min-height: 100%
+      width: 100%
       .detail-main
         margin-top: 64px
         padding-bottom: 32px
+        .name
+          font-size: 16px
+          line-height: 16px
+          font-weight: 700
+          text-align: center
+  /* 星星样式 */
+        .star-wrapper
+          text-align: center
+          margin: 16px 0 28px
+        
+        .title
+          display: flex
+          width: 80%
+          margin: 28px auto 24px auto
+          .line
+            flex: 1
+            position: relative
+            top: -6px
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2)
+          .text
+            padding: 0 12px
+            font-size: 14px
+            font-weight: 700
+            
     .detail-close
       position: relative
       width: 32px
-      heith: 32px
+      height: 32px
       margin: -64px auto 0 auto
       clear: both
       .icon-close
         color: rgba(255,255,255,0.5)
+        font-size: 32px
 </style>
