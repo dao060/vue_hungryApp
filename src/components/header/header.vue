@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="header">
   <div class="content-wrapper">
     <div class="avatar">
       <img :src="seller.avatar" width="64px" height="64px">
@@ -12,20 +12,32 @@
       <div class="description">{{ seller.description }}/{{ seller.deliveryTime }}分钟到达</div>
       <div class="supports">
         <span class="icon"></span><span v-if="seller.supports">{{ seller.supports[0].description }}</span>
-      </div>
-      <div class="supports-count">
-        <span class="count" v-if="seller.supports">{{ seller.supports.length }}个</span>
-        <i class="icon-keyboard_arrow_right"></i>
+        <div class="supports-count">
+          <span class="count" v-if="seller.supports">{{ seller.supports.length }}个</span>
+          <i class="icon-keyboard_arrow_right"></i>
+        </div>
       </div>
     </div>
   </div>
+  <!-- 公告 -->
   <div class="bulletin-wrapper">
     <span class="bulletin-icon"></span><span class="bulletin-content">{{ seller.bulletin }}</span>
     <i class="icon-keyboard_arrow_right"></i>
   </div>
+  <div class="background">
+    <img :src="seller.avatar" width="100%" height="100%"/>
+  </div>
+  <!-- 商家详情弹页 -->
+  <div v-show="detailShow" class="detail">
+    <div class="detail-wrapper clearfix">
+      <div class="detail-main"></div>
+    </div>
+    <div class="detai-close">
+      <i class="icon-close"></i>
+    </div>
+  </div>   
 </div>
 </template>
-
 <script>
 export default {
   name: 'header',
@@ -33,6 +45,11 @@ export default {
       seller: {
           type: Object
       }
+  },
+  data() {
+    return {
+      detailShow: true
+    }
   }
 }
 </script>
@@ -40,13 +57,16 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../common/stylus/mixin.styl'
+.header
+  position: relative
+  width: 100%
+  color: #fff
+  background: rgba(7, 17, 27, 0.5)
   .content-wrapper
     width: 100%
     position: relative
     box-sizing: border-box
-    padding: 24px 12px 36px 24px
-    background: #000
-    color: #fff
+    padding: 24px 12px 18px 24px
     font-size: 0px
     &>.avatar
       display: inline-block
@@ -54,7 +74,7 @@ export default {
       &>img
         border-radius: 2px
         -webkit-border-radius: 2px
-    &>.content
+    .content
       display: inline-block
       font-size: 14px
       margin-left: 16px
@@ -88,28 +108,32 @@ export default {
           background-repeat: no-repeat
           vertical-align: top
           margin-right: 4px
-      .supports-count
-        position: absolute
-        right: 12px
-        bottom: 15px
-        height: 24px
-        line-heightL 12px
-        font-size: 10px
-        background: #4c5054
-        line-height: 24px
-        font-size: 10px
-        padding: 7px 8px 7px 8px
-        border-radius: 12px
-        -webkit-border-radius: 12px
-
+        .supports-count
+          position: absolute
+          right: 12px
+          bottom: 15px
+          background: #4c5054
+          border-radius: 12px
+          font-size: 0
+          padding: 7px 8px
+          -webkit-border-radius: 12px
+          .count
+            display: inline-block
+            font-size: 10px
+            height: 12px
+            line-height: 12px
+            margin-right: 2px
+            vertical-align: top
+          &>i
+            font-size: 12px
   .bulletin-wrapper
     position: relative
     width: 100%
     box-sizing: border-box
     height: 28px
     line-height: 28px
-    color: #fff
     background: rgba(7, 17, 27, 0.2)
+    z-index: 1
     padding: 0 22px 0 12px
     white-space: nowrap
     overflow: hidden
@@ -133,4 +157,40 @@ export default {
       right: 12px
       top: 8px
       font-size: 12px
+/* 背景样式 */
+  .background
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: -1
+    filter: blur(10px)
+    -webkit-filter: blur(10px)
+    overflow: hidden
+/* 弹出页样式 */
+  .detail
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100% 
+    overflow: auto
+    z-index: 10
+    background: rgba(7,17,27,0.8)
+    filter: blur(10)
+    -webkit-filter: blur(10)
+    .detail-wrapper
+      min-height: 100%
+      .detail-main
+        margin-top: 64px
+        padding-bottom: 32px
+    .detail-close
+      position: relative
+      width: 32px
+      heith: 32px
+      margin: -64px auto 0 auto
+      clear: both
+      .icon-close
+        color: rgba(255,255,255,0.5)
 </style>
