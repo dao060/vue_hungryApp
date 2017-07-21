@@ -22,7 +22,8 @@ export default {
   name: 'app',
   data () {
     return {
-      seller: {}
+      seller: {},
+      foods: {}
     }
   },
   created () {
