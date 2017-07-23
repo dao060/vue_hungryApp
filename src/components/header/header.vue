@@ -41,7 +41,7 @@
           <star :score="seller.score" :size="48"></star>
         </div>
         <!-- 标题 -->
-        <div class="detail-title">
+        <div class="title">
           <div class="line"></div>
           <div class="text">优惠信息</div>
           <div class="line"></div>
@@ -113,6 +113,7 @@ export default {
   width: 100%
   color: #fff
   background: rgba(7, 17, 27, 0.5)
+  overflow: hidden
   .content-wrapper
     width: 100%
     position: relative
@@ -244,12 +245,11 @@ export default {
           line-height: 16px
           font-weight: 700
           text-align: center
-  /* 星星样式 */
         .star-wrapper
           text-align: center
           margin: 16px 0 28px
         
-        .detail-title
+        .title
           display: flex
           width: 80%
           margin: 28px auto 24px auto
@@ -262,7 +262,7 @@ export default {
             padding: 0 12px
             font-size: 14px
             font-weight: 700
-/***  优惠信息样式  ***/
+
         .detail-supports
           width: 80%
           margin: 0 auto 28px auto
@@ -299,7 +299,7 @@ export default {
               vertical-align: top
               margin: 2px 0 0 6px
 
-/** 商家公告样式 **/
+
         .bulletin
           width: 80%
           margin: 0 auto

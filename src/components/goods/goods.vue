@@ -1,7 +1,7 @@
 <template>
   <div class="goods">
   <!-- 左侧菜单列表 -->
-    <div class="menu-wrapper">
+    <div class="menu-wrapper" ref="menu-wrapper">
       <ul>
         <li v-for="item in goods" class="menu-item">
           <span class="text border-1px">
@@ -12,7 +12,7 @@
       </ul>
     </div>
     <!-- 商品列表 -->
-    <div class="foods-wrapper">
+    <div class="foods-wrapper" ref="foods-wrapper">
       <ul>
         <li v-for="item in goods" class="food-list">
           <h1 class="title">{{ item.name }}</h1>
@@ -25,8 +25,7 @@
                 <h2 class="name">{{ food.name }}</h2>
                 <p class="desc">{{ food.description }}</p>
                 <div class="extra">
-                  <span class="count">月售{{food.price}}份</span>
-                  <span v-show="food.rating">好评率{{ food.rating }}%</span>
+                  <span class="count">月售{{food.price}}份</span><span v-show="food.rating">好评率{{ food.rating }}%</span>
                 </div>
                 <div class="price">
                   <span class="now">￥{{ food.price }}</span>
@@ -42,6 +41,7 @@
 </template>
 
 <script>
+import BScroll from 'better-scroll';
 
 const ERR_OK = 0;
 
@@ -64,14 +64,30 @@ export default {
      'discount', 'special', 'invoice', 'guarantee'];
 
     this.$http.get('/api/goods').then(response => {
-      console.log(response);
+      
       response = response.body
+      console.log(response);
       if(response.errno === ERR_OK) {
+        
         this.goods = response.data;
-      }
-    },response => {
+        
+        this.$nextTick(() => {
+          this._initScroll();
+        });
+
+        // 计算高度
+      };
+    }, response => {
       console.log('获取数据失败'+ response);
     });
+  },
+  methods: {
+    _initScroll() {
+      this.menuScroll = new BScroll(this.$refs['menu-wrapper'], {});
+
+      this.foodsScroll = new BScroll(this.$refs['foods-wrapper'], {});
+
+    }
   }
 }
 </script>
@@ -157,17 +173,19 @@ export default {
             line-height: 10px
           .desc
             margin-bottom: 8px
+            line-height: 12px
           .extra
             &>.count
               margin-right: 12px
           .price
             font-weight: 700
             line-height: 24px
-          .now
-            font-size: 14px
-            color: rgb(240, 20, 20)
-          .old
-            text-decoration: line-through
-            font-size: 10px
-            color: rgb(147, 153, 159)
+            .now
+              font-size: 14px
+              margin-right: 8px
+              color: rgb(240, 20, 20)
+            .old
+              text-decoration: line-through
+              font-size: 10px
+              color: rgb(147, 153, 159)
 </style>
