@@ -1,9 +1,9 @@
 <template>
   <div class="goods">
   <!-- 左侧菜单列表 -->
-    <div class="menu-wrapper" ref="menu-wrapper">
+    <div class="menu-wrapper" ref="menuWrapper">
       <ul>
-        <li v-for="(item, $index) in goods" class="menu-item menu-item-hook" :class="{'current': currentIndex === $index}">
+        <li v-for="(item, index) in goods" class="menu-item menu-item-hook" :class="{'current': currentIndex===index}"  @click="selectMenu(index, $event)">
           <span class="text border-1px">
             <span class="icon" v-show="item.type>0"
              :class="classMap[item.type]"></span>{{ item.name }}
@@ -12,9 +12,9 @@
       </ul>
     </div>
     <!-- 商品列表 -->
-    <div class="foods-wrapper" ref="foods-wrapper">
+    <div class="foods-wrapper" ref="foodsWrapper">
       <ul>
-        <li v-for="item in goods" class="food-list food-list-hook">
+        <li v-for="item in goods" class="food-list food-list-hook" ref="foodList">
           <h1 class="title">{{ item.name }}</h1>
           <ul>
             <li v-for="food in item.foods" class="food-item border-1px">
@@ -76,10 +76,6 @@ export default {
         this.$nextTick(() => {
           this._initScroll();
 
-          this.foodsScroll.on('scroll', (pos) => {
-            console.log('滚动事件绑定成功');
-          })
-
           // 计算高度
           this._calculateHeight();
         });
@@ -95,8 +91,9 @@ export default {
 
         let height = this.listHeight[i];
         let nextHeight = this.listHeight[i+1];
-        if (!nextHeight || (this.scrollY >= height && this.scrollY < nextHeight)) {
-          
+        
+        if (!nextHeight || (this.scrollY >= height && (this.scrollY < nextHeight))) {
+         
           return i;
         }
       }
@@ -106,14 +103,18 @@ export default {
   methods: {
     _initScroll() {
 
-      this.menuScroll = new BScroll(this.$refs['menu-wrapper'], {
-        propType: 3
+      this.menuScroll = new BScroll(this.$refs.menuWrapper, {
+        click: true
       });
-      this.foodsScroll = new BScroll(this.$refs['foods-wrapper'], {
-        propType: 3,
-        preventDefault: false
+      this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+        click: true,
+        probeType: 3
       });
 
+      this.foodsScroll.on('scroll', pos => {
+        
+        this.scrollY = Math.abs(Math.round(pos.y));
+      });
     },
     _calculateHeight() {
      
@@ -128,8 +129,18 @@ export default {
         let item = foodList[i];
         height += item.clientHeight;
         this.listHeight.push(height);
-
       }
+    },
+    selectMenu(index, event) {
+      if(!event._constructed) {
+        return;
+      }
+
+      let foodList = this.$refs.foodList;
+      
+     let el = foodList[index];
+      this.foodsScroll.scrollToElement(el, 300);
+
     }
   }
 }
@@ -153,8 +164,8 @@ export default {
         display: table
         height: 54px
         width:  56px
-        line-height: 14px
         padding: 0 12px
+        line-height: 14px
         &.current
           position: relative
           background: #fff

@@ -128,18 +128,21 @@ export default {
         -webkit-border-radius: 2px
     .content
       display: inline-block
-      font-size: 14px
+      font-size: 12px
       margin-left: 16px
       vertical-align: top
       .title
         margin: 2px 0 8px 0
+        font-size: 0
         .brand
           display: inline-block
           width: 30px
           height: 18px
+          line-height: 18px
           bg-img('brand')
           background-size: 30px 18px
           background-repeat: no-repeat
+          
           vertical-align: top
         .name
           margin-left: 6px
@@ -234,9 +237,12 @@ export default {
     -webkit-filter: blur(10)
     .detail-wrapper
       min-height: 100%
+      padding-bottom: 32px
+      box-sizing: border-box 
       .detail-main
         margin-top: 64px
         padding-bottom: 32px
+        
         .detail-name
           font-size: 16px
           line-height: 16px
@@ -307,7 +313,8 @@ export default {
       position: relative
       width: 32px
       height: 32px
-      margin: -64px auto 0 auto
+      line-height: 32px
+      margin: -64px auto 32px auto
       clear: both
       .icon-close
         color: rgba(255,255,255,0.5)
