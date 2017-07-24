@@ -229,14 +229,11 @@ export default {
     height: 100% 
     background: rgba(7,17,27,0.8)
     overflow: auto
-    z-index: 10
+    z-index: 100
     filter: blur(10)
     -webkit-filter: blur(10)
-    box-sizing: border-box
-    -webkit-box-sizing: border-box
     .detail-wrapper
       min-height: 100%
-      width: 100%
       .detail-main
         margin-top: 64px
         padding-bottom: 32px

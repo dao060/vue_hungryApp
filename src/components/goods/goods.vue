@@ -3,7 +3,7 @@
   <!-- 左侧菜单列表 -->
     <div class="menu-wrapper" ref="menu-wrapper">
       <ul>
-        <li v-for="item in goods" class="menu-item">
+        <li v-for="(item, $index) in goods" class="menu-item menu-item-hook" :class="{'current': currentIndex === $index}">
           <span class="text border-1px">
             <span class="icon" v-show="item.type>0"
              :class="classMap[item.type]"></span>{{ item.name }}
@@ -14,7 +14,7 @@
     <!-- 商品列表 -->
     <div class="foods-wrapper" ref="foods-wrapper">
       <ul>
-        <li v-for="item in goods" class="food-list">
+        <li v-for="item in goods" class="food-list food-list-hook">
           <h1 class="title">{{ item.name }}</h1>
           <ul>
             <li v-for="food in item.foods" class="food-item border-1px">
@@ -25,7 +25,8 @@
                 <h2 class="name">{{ food.name }}</h2>
                 <p class="desc">{{ food.description }}</p>
                 <div class="extra">
-                  <span class="count">月售{{food.price}}份</span><span v-show="food.rating">好评率{{ food.rating }}%</span>
+                  <span class="count">月售{{food.price}}份</span><span
+                   v-show="food.rating">好评率{{ food.rating }}%</span>
                 </div>
                 <div class="price">
                   <span class="now">￥{{ food.price }}</span>
@@ -55,7 +56,9 @@ export default {
   },
   data() {
     return {
-      goods: {}
+      goods: {},
+      listHeight: [],
+      scrollY: 0
     }
   },
   created() {
@@ -66,27 +69,67 @@ export default {
     this.$http.get('/api/goods').then(response => {
       
       response = response.body
-      console.log(response);
       if(response.errno === ERR_OK) {
         
         this.goods = response.data;
         
         this.$nextTick(() => {
           this._initScroll();
+
+          this.foodsScroll.on('scroll', (pos) => {
+            console.log('滚动事件绑定成功');
+          })
+
+          // 计算高度
+          this._calculateHeight();
         });
 
-        // 计算高度
       };
     }, response => {
-      console.log('获取数据失败'+ response);
+      alert('获取数据失败'+ response);
     });
+  },
+  computed: {
+    currentIndex() {
+      for(let i = 0; i < this.listHeight.length; i++) {
+
+        let height = this.listHeight[i];
+        let nextHeight = this.listHeight[i+1];
+        if (!nextHeight || (this.scrollY >= height && this.scrollY < nextHeight)) {
+          
+          return i;
+        }
+      }
+      return 0;
+    }
   },
   methods: {
     _initScroll() {
-      this.menuScroll = new BScroll(this.$refs['menu-wrapper'], {});
 
-      this.foodsScroll = new BScroll(this.$refs['foods-wrapper'], {});
+      this.menuScroll = new BScroll(this.$refs['menu-wrapper'], {
+        propType: 3
+      });
+      this.foodsScroll = new BScroll(this.$refs['foods-wrapper'], {
+        propType: 3,
+        preventDefault: false
+      });
 
+    },
+    _calculateHeight() {
+     
+      // 获取dom元素
+      let foodList = this.$el.getElementsByClassName('food-list-hook');
+            
+      let height = 0;
+      this.listHeight.push(height); 
+
+      for(let i = 0, len = foodList.length; i < len; i++) {
+
+        let item = foodList[i];
+        height += item.clientHeight;
+        this.listHeight.push(height);
+
+      }
     }
   }
 }
@@ -112,6 +155,13 @@ export default {
         width:  56px
         line-height: 14px
         padding: 0 12px
+        &.current
+          position: relative
+          background: #fff
+          font-weight: 700
+          .text
+            border-none()
+
         .icon
           &.decrease
             bg-img('decrease_1')
@@ -188,4 +238,5 @@ export default {
               text-decoration: line-through
               font-size: 10px
               color: rgb(147, 153, 159)
+
 </style>

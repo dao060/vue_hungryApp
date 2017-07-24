@@ -29,10 +29,9 @@ export default {
   created () {
     this.$http.get('/api/seller').then((res) => {
       res = res.body;
-      console.log(res);
       this.seller = res.data;
     }, (res) => {
-      console.log(res);
+      alert(res);
     });
   },
   components: {
