@@ -38,11 +38,14 @@
         </li>
       </ul>
     </div>
+    <!-- 购物车组件 -->
+  <shopcard :delivery="seller.deliveryPrice" :minDelivery="seller.minPrice"></shopcard>
   </div>
 </template>
 
 <script>
 import BScroll from 'better-scroll';
+import shopcard from '../shopcard/shopcard.vue';
 
 const ERR_OK = 0;
 
@@ -62,12 +65,10 @@ export default {
     }
   },
   created() {
-
     this.classMap = ['decrease',
      'discount', 'special', 'invoice', 'guarantee'];
 
     this.$http.get('/api/goods').then(response => {
-      
       response = response.body
       if(response.errno === ERR_OK) {
         
@@ -142,6 +143,9 @@ export default {
       this.foodsScroll.scrollToElement(el, 300);
 
     }
+  },
+  components: {
+    shopcard
   }
 }
 </script>
@@ -170,6 +174,7 @@ export default {
           position: relative
           background: #fff
           font-weight: 700
+          top: -1px
           .text
             border-none()
 
