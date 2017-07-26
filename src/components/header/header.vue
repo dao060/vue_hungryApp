@@ -163,6 +163,7 @@ export default {
           background-repeat: no-repeat
           vertical-align: top
           margin-right: 4px
+          margin-top: -1px
         .supports-count
           position: absolute
           right: 12px

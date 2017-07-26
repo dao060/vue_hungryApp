@@ -3,16 +3,17 @@
 		<div class="content">
 			<div class="content-left">
 				<div class="logo-wrapper">
-					<div class="logo">
+					<div class="logo" :class="{'highLight': totalPrice > 0}">
 						<span class="icon-shopping_cart"></span>
 					</div>
+					<div class="selectNum" v-show="totalCount > 0">{{ totalCount }}</div>
 				</div>
-				<div class="price">￥0</div>
-				<div class="desc">另需配送费￥{{ delivery }}元</div>
+				<div class="price" :class="{'highLight': totalPrice > 0}">￥{{ totalPrice }}</div>
+				<div class="desc">配送费￥{{ deliveryPrice }}元</div>
 			</div>
 			<div class="content-right">
-				<div class="pay">
-					￥{{ minDelivery }}元起送
+				<div class="pay" :class="{'highLight': totalPrice >= minPrice }">
+					{{ payDesc }}
 				</div>
 			</div>
 		</div>
@@ -20,27 +21,65 @@
 </template>
 
 <script>
+import cartControl from '../cartControl/cartControl.vue';
 	export default {
 		name: 'shopcard',
+		components: {
+			cartControl
+		},
 		props: {
 			selectFoods: {
 				type: Array,
 				default() {
-					return [];
+					return [
+						{
+							price: 0,
+							count: 0
+						}
+					];
 				}
 			},
-			delivery: {
+			deliveryPrice: {
 				type: Number,
 				default: 0
 			},
-			minDelivery: {
+			minPrice: {
 				type: Number,
 				default: 0
 			}
 		},
 		computed: {
-			totalPrice() {},
-			totalCount() {}
+			totalPrice() {
+				var total = 0;
+				this.selectFoods.forEach((food) => {
+					total += food.price * food.count;
+				});
+
+				return total;
+			},
+			totalCount() {
+				var count = 0;
+				this.selectFoods.forEach((food) => {
+					count += food.count;
+				});
+
+				return count;
+			},
+			payDesc() {
+
+				if (this.totalPrice === 0) {
+
+					return `￥${minPrice}元起送`
+
+				}else if (this.totalPrice < this.minPrice ) {
+
+					let diff = this.minPrice - this.totalPrice;
+					return `还差${diff}元起送`;
+
+				}else {
+					return '去结算';
+				}
+			}
 
 		}
 	}
@@ -79,10 +118,26 @@
 					background: #2b343c
 					border-radius: 50%
 					text-align: center
+					&.highLight
+						background: #00a0dc
+						color: #fff
 					.icon-shopping_cart
 						font-size: 24px
 						line-height: 44px
-						
+				.selectNum
+					position: absolute
+					top: 0
+					right: 0
+					width: 24px
+					height: 12px
+					line-height: 12px
+					background: rgb(240, 20, 20)
+					color: #fff
+					border-radius: 6px
+					text-align: center
+					font-size: 9px
+					box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4)
+					-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4)
 			.price
 				display: inline-block
 				font-size: 16px
@@ -93,8 +148,11 @@
 				border-right: 1px solid rgba(255, 255, 255, 0.1)
 				font-size: 16px
 				font-weight: 700
+				&.highLight
+					color: #fff
 			.desc
 				display: inline-block
+				-webkit-text-size-adjust: none
 				font-size: 10px
 				font-weight: 200
 				line-height: 24px
@@ -110,6 +168,9 @@
 				font-weight: 700
 				text-align: center
 				background: #2b333b
+				&.highLight
+					background: #00b43c
+					color: #fff
 				
 				
 

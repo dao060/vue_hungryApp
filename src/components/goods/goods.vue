@@ -32,6 +32,9 @@
                   <span class="now">￥{{ food.price }}</span>
                   <span v-show="food.oldPrice" class="old">￥{{ food.oldPrice }}</span>
                 </div>
+                <div class="cartControl-wrapper">
+                  <cart-control :food="food"></cart-control>
+                </div> 
               </div>
             </li>
           </ul>
@@ -39,13 +42,14 @@
       </ul>
     </div>
     <!-- 购物车组件 -->
-  <shopcard :delivery="seller.deliveryPrice" :minDelivery="seller.minPrice"></shopcard>
+  <shopcard :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcard>
   </div>
 </template>
 
 <script>
 import BScroll from 'better-scroll';
 import shopcard from '../shopcard/shopcard.vue';
+import cartControl from '../cartControl/cartControl.vue';
 
 const ERR_OK = 0;
 
@@ -116,6 +120,7 @@ export default {
         
         this.scrollY = Math.abs(Math.round(pos.y));
       });
+
     },
     _calculateHeight() {
      
@@ -133,6 +138,7 @@ export default {
       }
     },
     selectMenu(index, event) {
+      
       if(!event._constructed) {
         return;
       }
@@ -145,7 +151,8 @@ export default {
     }
   },
   components: {
-    shopcard
+    shopcard,
+    'cart-control': cartControl
   }
 }
 </script>
@@ -227,6 +234,7 @@ export default {
           margin-right: 10px
         .content
           flex: 1
+          position: relative
           .name
             margin: 2px 0 8px 0
             font-size: 14px
@@ -255,4 +263,8 @@ export default {
               font-size: 10px
               color: rgb(147, 153, 159)
 
+          .cartControl-wrapper
+            position: absolute
+            right: 0px
+            bottom: -8px
 </style>
