@@ -32,6 +32,7 @@
                   <span class="now">￥{{ food.price }}</span>
                   <span v-show="food.oldPrice" class="old">￥{{ food.oldPrice }}</span>
                 </div>
+                <!-- 按钮组件 -->
                 <div class="cartControl-wrapper">
                   <cart-control :food="food"></cart-control>
                 </div> 
@@ -42,7 +43,7 @@
       </ul>
     </div>
     <!-- 购物车组件 -->
-  <shopcard :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcard>
+  <shopcard :select-foods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"  ></shopcard>
   </div>
 </template>
 
@@ -63,7 +64,7 @@ export default {
   },
   data() {
     return {
-      goods: {},
+      goods: [],
       listHeight: [],
       scrollY: 0
     }
@@ -91,6 +92,7 @@ export default {
     });
   },
   computed: {
+
     currentIndex() {
       for(let i = 0; i < this.listHeight.length; i++) {
 
@@ -103,6 +105,19 @@ export default {
         }
       }
       return 0;
+    },
+
+    selectFoods () {
+      // food选择
+      var foods = [];
+      this.goods.forEach((good) => {
+        good.foods.forEach((food) => {
+          if(food.count) {
+            foods.push(food);
+          }
+        });
+      });
+      return foods;
     }
   },
   methods: {

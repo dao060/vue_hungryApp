@@ -16,6 +16,12 @@
 					{{ payDesc }}
 				</div>
 			</div>
+			<!-- 小球动画 -->
+			<div class="ball-container">
+				<transition name="drop">
+				<div v-for="ball in balls" v-show="ball.show" class="ball"></div>
+				</transition>
+			</div>	
 		</div>
 	</div>
 </template>
@@ -24,13 +30,22 @@
 import cartControl from '../cartControl/cartControl.vue';
 	export default {
 		name: 'shopcard',
+		data() {
+			return {
+				balls: [
+					{
+						show: false
+					}
+				]
+			}
+		},
 		components: {
 			cartControl
 		},
 		props: {
 			selectFoods: {
 				type: Array,
-				default() {
+				default () {
 					return [
 						{
 							price: 0,
@@ -49,6 +64,7 @@ import cartControl from '../cartControl/cartControl.vue';
 			}
 		},
 		computed: {
+
 			totalPrice() {
 				var total = 0;
 				this.selectFoods.forEach((food) => {
@@ -69,7 +85,7 @@ import cartControl from '../cartControl/cartControl.vue';
 
 				if (this.totalPrice === 0) {
 
-					return `￥${minPrice}元起送`
+					return `￥${this.minPrice}元起送`
 
 				}else if (this.totalPrice < this.minPrice ) {
 
