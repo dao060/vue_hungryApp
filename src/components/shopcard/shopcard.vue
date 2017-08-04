@@ -18,8 +18,10 @@
 			</div>
 			<!-- 小球动画 -->
 			<div class="ball-container">
-				<transition name="drop">
-				<div v-for="ball in balls" v-show="ball.show" class="ball"></div>
+				<transition name="drop" :before-enter="beforeEnter">
+					<div v-for="ball in balls" v-show="ball.show" class="ball">
+						<div class="inner"></div>
+					</div>
 				</transition>
 			</div>	
 		</div>
@@ -33,6 +35,18 @@ import cartControl from '../cartControl/cartControl.vue';
 		data() {
 			return {
 				balls: [
+					{
+						show: false
+					},
+					{
+						show: false
+					},
+					{
+						show: false
+					},
+					{
+						show: false
+					},
 					{
 						show: false
 					}
@@ -64,8 +78,9 @@ import cartControl from '../cartControl/cartControl.vue';
 			}
 		},
 		computed: {
-
+			
 			totalPrice() {
+				// 计算总价
 				var total = 0;
 				this.selectFoods.forEach((food) => {
 					total += food.price * food.count;
@@ -74,6 +89,7 @@ import cartControl from '../cartControl/cartControl.vue';
 				return total;
 			},
 			totalCount() {
+				// 计算总数量
 				var count = 0;
 				this.selectFoods.forEach((food) => {
 					count += food.count;
@@ -82,7 +98,7 @@ import cartControl from '../cartControl/cartControl.vue';
 				return count;
 			},
 			payDesc() {
-
+				// 支付信息联动
 				if (this.totalPrice === 0) {
 
 					return `￥${this.minPrice}元起送`
@@ -96,7 +112,12 @@ import cartControl from '../cartControl/cartControl.vue';
 					return '去结算';
 				}
 			}
-
+		},
+		methods: {
+			drop (target) {
+				// 小球下降方法
+				
+			},
 		}
 	}
 </script>
@@ -174,7 +195,7 @@ import cartControl from '../cartControl/cartControl.vue';
 				line-height: 24px
 				margin: 12px 0 0 12px
 				vertical-align: top
-		.content-right
+		.content-right	
 			flex: 0 0 105px
 			width: 105px
 			.pay
@@ -188,6 +209,19 @@ import cartControl from '../cartControl/cartControl.vue';
 					background: #00b43c
 					color: #fff
 				
-				
+		.ball-container
+			.ball
+				position: absolute
+				bottom: 22px
+				left: 32px
+				z-index: 200
+				.inner
+					width: 16px
+					height: 16px
+					border-radius: 50%
+					background: #00a0dc
+				&.drop-enter-active, &.drop-leave-active
+					transition: all .5s linear
+
 
 </style>

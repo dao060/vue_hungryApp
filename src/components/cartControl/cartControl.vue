@@ -22,7 +22,7 @@
 		methods: {
 
 			addCount (event) {
-				
+				// 添加商品
 				if (!event._constructed) {
 					return;
 				}
@@ -35,7 +35,7 @@
 			},
 
 			cutCount (event) {
-				
+				// 减小删除商品
 				if (!event._constructed) {
 					return;
 				}
@@ -59,23 +59,25 @@
 		vertical-align: top
 	.decrease
 		font-size: 0
+		opacity: 1
+		transform: translate3d(0, 0, 0)
 		.inner
 			display: inline-block
 			font-size: 24px
 			vertical-align: middle
+			transition: all 0.4s linear
+			transform: rotate(0)
+		&.move-enter-active, &.move-leave-active
+			transition: all 0.4s linear	
+		&.move-enter, &.move-leave-to
+			opacity: 0
+			transform: translate3D(24px, 0, 0)
+			.inner
+				transform: rotate(180deg)
 	.card-add
 		font-size: 24px
 	.cart-count
 		color: rgb(147, 153, 159)
 		font-size: 10px
-	.move-enter-active, .move-leave-active
-		transition: all 0.5s ease-out
-		.inner
-			transition: transform .5s ease-out
-	.move-enter, .move-leave
-		transform: translate3D(48px,0, 0)
-		opacity: 0
-		.inner
-			transform: rotate(180deg)
-
+	
 </style>

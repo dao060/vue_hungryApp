@@ -94,6 +94,7 @@ export default {
   computed: {
 
     currentIndex() {
+      // 当前菜单栏的下标
       for(let i = 0; i < this.listHeight.length; i++) {
 
         let height = this.listHeight[i];
@@ -123,6 +124,7 @@ export default {
   methods: {
     _initScroll() {
 
+      // 初始滚动
       this.menuScroll = new BScroll(this.$refs.menuWrapper, {
         click: true
       });
@@ -139,7 +141,7 @@ export default {
     },
     _calculateHeight() {
      
-      // 获取dom元素
+     // 计算高度
       let foodList = this.$el.getElementsByClassName('food-list-hook');
             
       let height = 0;
@@ -154,6 +156,7 @@ export default {
     },
     selectMenu(index, event) {
       
+      // 菜单选择
       if(!event._constructed) {
         return;
       }
