@@ -32,6 +32,8 @@
 				}else {
 					this.food.count++;
 				}
+
+				this.$emit('cartAdd', event.target);
 			},
 
 			cutCount (event) {
@@ -43,7 +45,7 @@
 				if(this.food.count > 0) {
 					this.food.count--;
 				}
-			}
+			},
 		}
 	}
 </script>

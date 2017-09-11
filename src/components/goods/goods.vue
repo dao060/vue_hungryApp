@@ -43,8 +43,9 @@
       </ul>
     </div>
     <!-- 购物车组件 -->
-  <shopcard :select-foods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"  ></shopcard>
-  </div>
+  <shopcard ref="shopcard" @cardAdd="addcard"
+  :select-foods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"  ></shopcard>
+  </div> 
 </template>
 
 <script>
@@ -87,6 +88,7 @@ export default {
         });
 
       };
+
     }, response => {
       alert('获取数据失败'+ response);
     });
@@ -163,11 +165,20 @@ export default {
 
       let foodList = this.$refs.foodList;
       
-     let el = foodList[index];
+      let el = foodList[index];
       this.foodsScroll.scrollToElement(el, 300);
 
+    },
+    addcard(target) {
+      this._drop(target);
+    },
+    _drop (target) {
+      this.nextTick(() => {
+        this.$refs.shopcard.drop(target);
+      });
     }
   },
+
   components: {
     shopcard,
     'cart-control': cartControl

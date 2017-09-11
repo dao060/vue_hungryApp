@@ -18,11 +18,11 @@
 			</div>
 			<!-- 小球动画 -->
 			<div class="ball-container">
-				<transition name="drop" :before-enter="beforeEnter">
-					<div v-for="ball in balls" v-show="ball.show" class="ball">
+				<div v-for="ball in balls" v-show="ball.show" class="ball">
+					<transition name="drop">
 						<div class="inner"></div>
-					</div>
-				</transition>
+					</transition>
+				</div>
 			</div>	
 		</div>
 	</div>
@@ -36,7 +36,7 @@ import cartControl from '../cartControl/cartControl.vue';
 			return {
 				balls: [
 					{
-						show: false
+						show: true
 					},
 					{
 						show: false
@@ -114,9 +114,9 @@ import cartControl from '../cartControl/cartControl.vue';
 			}
 		},
 		methods: {
-			drop (target) {
+			drop (el) {
 				// 小球下降方法
-				
+				console.log(el);
 			},
 		}
 	}
@@ -211,7 +211,7 @@ import cartControl from '../cartControl/cartControl.vue';
 				
 		.ball-container
 			.ball
-				position: absolute
+				position: fixed
 				bottom: 22px
 				left: 32px
 				z-index: 200
@@ -219,9 +219,9 @@ import cartControl from '../cartControl/cartControl.vue';
 					width: 16px
 					height: 16px
 					border-radius: 50%
-					background: #00a0dc
+					background: rgb(0, 160, 220)
 				&.drop-enter-active, &.drop-leave-active
-					transition: all .5s linear
+					transition: all .4s 
 
 
 </style>
