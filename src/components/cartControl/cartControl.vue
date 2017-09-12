@@ -6,7 +6,7 @@
 			</div>
 		</transition>
 		<div class="cart-count" v-show="food.count>0">{{ food.count }}</div>
-		<div class="card-add icon-add_circle" @click="addCount($event)"></div>
+		<div class="card-add icon-add_circle" @click.stop="addCount($event)"></div>
 	</div>
 </template>
 <script>
@@ -26,14 +26,15 @@
 				if (!event._constructed) {
 					return;
 				}
-				
+				// food对象添加属性count
 				if (!this.food.count) {
 					this.$set(this.food, 'count', 1);
 				}else {
 					this.food.count++;
 				}
 
-				this.$emit('cartAdd', event.target);
+				this.$emit('Add', event.target);
+					
 			},
 
 			cutCount (event) {
@@ -45,7 +46,7 @@
 				if(this.food.count > 0) {
 					this.food.count--;
 				}
-			},
+			}
 		}
 	}
 </script>

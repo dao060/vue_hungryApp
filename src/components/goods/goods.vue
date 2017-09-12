@@ -34,7 +34,7 @@
                 </div>
                 <!-- 按钮组件 -->
                 <div class="cartControl-wrapper">
-                  <cart-control :food="food"></cart-control>
+                  <cart-control :food="food" @Add="addcard"></cart-control>
                 </div> 
               </div>
             </li>
@@ -43,7 +43,7 @@
       </ul>
     </div>
     <!-- 购物车组件 -->
-  <shopcard ref="shopcard" @cardAdd="addcard"
+  <shopcard ref="shopcard"  
   :select-foods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"  ></shopcard>
   </div> 
 </template>
@@ -171,9 +171,10 @@ export default {
     },
     addcard(target) {
       this._drop(target);
+      
     },
     _drop (target) {
-      this.nextTick(() => {
+      this.$nextTick(() => {
         this.$refs.shopcard.drop(target);
       });
     }
