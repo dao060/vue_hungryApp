@@ -50,7 +50,8 @@ import cartControl from '../cartControl/cartControl.vue';
 					{
 						show: false
 					}
-				]
+				],
+				dropBalls: []
 			}
 		},
 		components: {
@@ -115,9 +116,19 @@ import cartControl from '../cartControl/cartControl.vue';
 		},
 		methods: {
 			drop (el) {
+				// 获取小球相对于视口的位置
+				console.log(el.getBoundingClientRect());
 				// 小球下降方法
-				console.log(el);
-			},
+				for(let i=0; i<this.balls.length; i++) {
+					let ball = this.balls[i];
+					if(!ball.show) {
+						ball.show = true;
+						ball.el = el;
+						this.dropBalls.push(ball);
+						return;
+					}
+				}
+			}
 		}
 	}
 </script>

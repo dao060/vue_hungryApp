@@ -32,9 +32,8 @@
                   <span class="now">￥{{ food.price }}</span>
                   <span v-show="food.oldPrice" class="old">￥{{ food.oldPrice }}</span>
                 </div>
-                <!-- 按钮组件 -->
                 <div class="cartControl-wrapper">
-                  <cart-control :food="food" @Add="addcard"></cart-control>
+                  <cart-control :food="food"></cart-control>
                 </div> 
               </div>
             </li>
@@ -43,11 +42,9 @@
       </ul>
     </div>
     <!-- 购物车组件 -->
-  <shopcard ref="shopcard"  
-  :select-foods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"  ></shopcard>
-  </div> 
+  <shopcard :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcard>
+  </div>
 </template>
-
 <script>
 import BScroll from 'better-scroll';
 import shopcard from '../shopcard/shopcard.vue';
@@ -65,7 +62,7 @@ export default {
   },
   data() {
     return {
-      goods: [],
+      goods: {},
       listHeight: [],
       scrollY: 0
     }
@@ -88,15 +85,12 @@ export default {
         });
 
       };
-
     }, response => {
       alert('获取数据失败'+ response);
     });
   },
   computed: {
-
     currentIndex() {
-      // 当前菜单栏的下标
       for(let i = 0; i < this.listHeight.length; i++) {
 
         let height = this.listHeight[i];
@@ -108,25 +102,11 @@ export default {
         }
       }
       return 0;
-    },
-
-    selectFoods () {
-      // food选择
-      var foods = [];
-      this.goods.forEach((good) => {
-        good.foods.forEach((food) => {
-          if(food.count) {
-            foods.push(food);
-          }
-        });
-      });
-      return foods;
     }
   },
   methods: {
     _initScroll() {
 
-      // 初始滚动
       this.menuScroll = new BScroll(this.$refs.menuWrapper, {
         click: true
       });
@@ -143,7 +123,7 @@ export default {
     },
     _calculateHeight() {
      
-     // 计算高度
+      // 获取dom元素
       let foodList = this.$el.getElementsByClassName('food-list-hook');
             
       let height = 0;
@@ -158,28 +138,17 @@ export default {
     },
     selectMenu(index, event) {
       
-      // 菜单选择
       if(!event._constructed) {
         return;
       }
 
       let foodList = this.$refs.foodList;
       
-      let el = foodList[index];
+     let el = foodList[index];
       this.foodsScroll.scrollToElement(el, 300);
 
-    },
-    addcard(target) {
-      this._drop(target);
-      
-    },
-    _drop (target) {
-      this.$nextTick(() => {
-        this.$refs.shopcard.drop(target);
-      });
     }
   },
-
   components: {
     shopcard,
     'cart-control': cartControl
